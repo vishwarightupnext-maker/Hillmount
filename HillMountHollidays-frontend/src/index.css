@@ -1,0 +1,145 @@
+@import "tailwindcss";
+/* RESET */
+* {
+  /* margin: 0;
+  padding: 0; */
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  color: #000;
+}
+
+/* ROOT FIX */
+#root {
+  width: 100%;
+  max-width: 100%;
+  /* margin: 0;
+  padding: 0; */
+}
+
+/* ── Skeleton shimmer ─────────────────────────────────────────────────────
+   Light-grey placeholder with a moving shine sweep. Use `.skeleton-shimmer`
+   on light backgrounds (sets its own grey base), or add
+   `.skeleton-shimmer-dark` next to an existing dark bg class to get just
+   the shine overlay. */
+.skeleton-shimmer,
+.skeleton-shimmer-dark {
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-shimmer {
+  background-color: #e5e7eb; /* gray-200 */
+}
+.skeleton-shimmer::after,
+.skeleton-shimmer-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: skeleton-shine 1.4s ease-in-out infinite;
+}
+.skeleton-shimmer-dark::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.14),
+    transparent
+  );
+}
+@keyframes skeleton-shine {
+  100% { transform: translateX(100%); }
+}
+
+/* Rich text content — used in singleBlog article body and excerpt */
+.prose-content b,
+.prose-content strong { font-weight: 700; }
+
+.prose-content i,
+.prose-content em { font-style: italic; }
+
+.prose-content u { text-decoration: underline; }
+
+.prose-content s,
+.prose-content strike { text-decoration: line-through; }
+
+.prose-content ol {
+  list-style-type: decimal;
+  padding-left: 1.4rem;
+  margin: 0.5rem 0;
+}
+
+.prose-content ul {
+  list-style-type: disc;
+  padding-left: 1.4rem;
+  margin: 0.5rem 0;
+}
+
+.prose-content li { margin-bottom: 0.25rem; }
+
+.prose-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.prose-content p   { margin-bottom: 1rem; }
+
+/* contentEditable stores each line as a <div> in Chrome */
+.prose-content div { display: block; min-height: 1.2em; margin-bottom: 0.25rem; }
+
+/* ── Table styles ─────────────────────────────────────────────────────────── */
+.prose-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0 1.75rem;
+  font-size: 0.875rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.prose-content thead {
+  background-color: #1e3a5f;
+  color: #ffffff;
+}
+
+.prose-content thead th {
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prose-content tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.15s;
+}
+
+.prose-content tbody tr:last-child {
+  border-bottom: none;
+}
+
+.prose-content tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.prose-content tbody tr:hover {
+  background-color: #fffbeb;
+}
+
+.prose-content tbody td {
+  padding: 10px 16px;
+  color: #374151;
+  vertical-align: middle;
+}

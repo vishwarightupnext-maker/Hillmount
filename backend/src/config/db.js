@@ -1,0 +1,25 @@
+const mongoose = require('mongoose');
+const dns = require('dns');
+
+// Fallback public DNS to resolve MongoDB Atlas SRV records if local DNS fails
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+  if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+  }
+} catch (e) {
+  // Ignore DNS config errors if unsupported
+}
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (err) {
+    console.error(`MongoDB connection failed: ${err.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+

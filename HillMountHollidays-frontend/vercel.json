@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/veena-api/:path*",
+      "destination": "https://extapi.veenaworld.com/partner/staging/v1/:path*"
+    }
+  ]
+}
