@@ -92,7 +92,9 @@ const FeatureCard = ({ title, description }) => (
   </div>
 );
 
-const names = [  "HillMount Holidays","Ram", "Balaji", "Tharini"];
+// const names = [  "HillMount Holidays","Ram", "Balaji", "Tharini"];
+const names = [  "HillMount Holidays","Ram","Tharini"];
+
 
 const useTypewriter = (words, typingSpeed = 100, deletingSpeed = 60, pauseTime = 1600) => {
   const [text, setText] = useState('');
