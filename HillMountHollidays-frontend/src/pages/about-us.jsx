@@ -4,7 +4,6 @@ import HeroSkeleton, { useImageLoaded } from "../components/HeroSkeleton";
 import AboutImg from "../assets/about/about-bg1.webp";
 import JourneyFallbackImg from "../assets/about/team.jpeg";
 import RamImg from "../assets/about/Ram.svg";
-import BalajiImg from "../assets/about/Balaji.SVG";
 import SubbiahImg from "../assets/about/Subbiah.svg";
 import ThariniImg from "../assets/about/Tharini.svg";
 import HorizontalScroller from "../components/HorizontalScroller";
