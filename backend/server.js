@@ -39,6 +39,7 @@ const miceEnquiryRoutes        = require('./src/routes/miceEnquiryRoutes');
 const teamRoutes               = require('./src/routes/teamRoutes');
 const aboutJourneyRoutes       = require('./src/routes/aboutJourneyRoutes');
 const privacyPolicyRoutes      = require('./src/routes/privacyPolicyRoutes');
+const hotelPackageRoutes     = require('./src/routes/hotelPackageRoutes');
 
 const { seedSuperAdmin } = require('./src/controllers/adminController');
 
@@ -150,6 +151,7 @@ app.use('/api/mice-enquiry',      miceEnquiryRoutes);
 app.use('/api/team',              teamRoutes);
 app.use('/api/about-journey',     aboutJourneyRoutes);
 app.use('/api/privacy-policy',    privacyPolicyRoutes);
+app.use('/api/hotel-packages', hotelPackageRoutes);
 
 // Catch-all route to serve index.html for client-side routing
 app.get('/*splat', (req, res, next) => {

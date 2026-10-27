@@ -28,6 +28,7 @@ import {
   fetchTourDetails,
 } from "../services/veenaWorldApi";
 import FaqComponent from "../components/faqComponent";
+import HotelAvailability from "../components/HotelAvailability";
 import TestimonialsBlogNewsletter from "../components/TestimonialsBlogNewsletter";
 import { CUSTOMIZED_HOLIDAY_PACKAGES } from "../data/customizedPackagesData";
 
@@ -344,7 +345,7 @@ const SingleTourPackage = () => {
     }
   };
 
-//   const toggleDay = (i) => setExpandedDay((prev) => (prev === i ? -1 : i));
+  //   const toggleDay = (i) => setExpandedDay((prev) => (prev === i ? -1 : i));
 
   // Build Day-by-Day Itinerary structure (combines API itinerary or constructs from cities/sightseeing data)
   const formattedItinerary = useMemo(() => {
@@ -934,7 +935,9 @@ const SingleTourPackage = () => {
             </div>
           </aside>
         </div>
-
+        <div className="mt-12">
+          <HotelAvailability />
+        </div>
         <div className="mt-12">
           <FaqComponent />
         </div>
