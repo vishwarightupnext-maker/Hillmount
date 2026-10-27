@@ -4,7 +4,7 @@ import Africa from "../assets/worldicons/Africa.webp";
 import Australia from "../assets/worldicons/Australia.webp";
 import China from "../assets/worldicons/China.webp";
 import Europe from "../assets/worldicons/Europe.webp";
-import Jammu from "../assets/worldicons/jammu.webp";
+import Jammu from "../assets/worldicons/Jammu.webp";
 import Japan from "../assets/worldicons/Japan.webp";
 import Kerala from "../assets/worldicons/Kerala.webp";
 import Ladakh from "../assets/worldicons/LehLadakh.webp";

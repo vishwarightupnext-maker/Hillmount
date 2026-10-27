@@ -19,11 +19,10 @@
       <div className="w-full">
         <Banner />
         <ScrollMarquee />
-        <WorldCard />
+        {/* <WorldCard /> */}
         <WorldCircle />
         <Ad1 />
          <JourneyBonds />
-      
         <CounterBanner />
          <ReelSection />
           <GetToKnow />
