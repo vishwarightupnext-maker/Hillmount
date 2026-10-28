@@ -450,7 +450,7 @@ const HolidayListPage = ({
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                {filtered.map((pkg, i) => (
+                {/* {filtered.map((pkg, i) => (
                   <PackageCard key={pkg._id} pkg={pkg} delay={i * 0.06}
                     onClick={() => {
                       if (pkg.isVeenaWorld || pkg.code) {
@@ -459,7 +459,7 @@ const HolidayListPage = ({
                         navigate(`${detailPath}/${pkg.slug}`);
                       }
                     }} />
-                ))}
+                ))} */}
               </div>
             )}
           </div>

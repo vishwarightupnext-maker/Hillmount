@@ -16,11 +16,12 @@ const INCLUDE_ICONS = ['Hotel', 'Meals', 'Flight', 'Sightseeing', 'Transport', '
 
 const EMPTY_DAY = () => ({ dayLabel: '', date: '', title: '', nights: 1, description: '', amenities: [] });
 const PACKAGE_TYPES = [
-  { value: 'customized', label: 'Customized Holiday' },
-  { value: 'speciality', label: 'Speciality Tour' },
-  { value: 'short-stay', label: 'Weekend Getaway (Short Stay)' },
-  { value: 'mice',       label: 'MICE' },
-  { value: 'cruise',     label: 'Cruise' },
+  { value: 'customized',  label: 'Customized Holiday' },
+  { value: 'speciality',  label: 'Speciality Tour' },
+  { value: 'tailor-made', label: 'Tailor made Holidays' },
+  { value: 'short-stay',  label: 'Weekend Getaway (Short Stay)' },
+  { value: 'mice',        label: 'MICE' },
+  { value: 'cruise',      label: 'Cruise' },
 ];
 
 const EMPTY_FORM = () => ({

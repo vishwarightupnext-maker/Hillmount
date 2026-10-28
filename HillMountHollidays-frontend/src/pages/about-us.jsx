@@ -10,14 +10,10 @@ import HorizontalScroller from "../components/HorizontalScroller";
 import AuthorisedPartnerPanel from "../components/AuthorisedPartnerPanel";
 import { API } from "../components/adminComponents/apiHelper";
 
-// Shown until the admin panel's Team / About Journey data loads (or if it's ever empty).
-
 const TEAM_FALLBACK = [
-    { name: "Subbiah",  role: "Team Member", img: SubbiahImg },
-  { name: "Ram",      role: "Team Member", img: RamImg },
-    { name: "Tharini",  role: "Team Member", img: ThariniImg },
-  // { name: "Balaji",   role: "Team Member", img: BalajiImg },
-
+  { name: "Subbiah", role: "Team Member", img: SubbiahImg },
+  { name: "Ram", role: "Team Member", img: RamImg },
+  { name: "Tharini", role: "Team Member", img: ThariniImg },
 ];
 
 const CYCLE_WORDS = ["Home", "City", "State", "Country"];
@@ -67,8 +63,6 @@ const useCycleTyped = (words) => {
 
   return text;
 };
-
-/* ─── Components ─────────────────────────────────────────── */
 
 const RevealItem = ({ children, delay = 0, from = "bottom" }) => {
   const ref = useRef(null);
@@ -165,8 +159,6 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-/* ─── Page ────── */
-
 const AboutUs = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -179,27 +171,42 @@ const AboutUs = () => {
   const [journeyImg, setJourneyImg] = useState(JourneyFallbackImg);
 
   useEffect(() => {
-    // Static fallback images in use — admin-panel API fetch disabled until image hosting is fixed.
-    // fetch(`${API}/api/team`)
-    //   .then((r) => r.json())
-    //   .then((d) => {
-    //     if (d.success && d.data?.length) {
-    //       setTeam(d.data.map((m) => ({
-    //         name: m.name,
-    //         role: m.role,
-    //         img: `${API}${m.image}`,
-    //         linkedin: m.linkedin || undefined,
-    //       })));
-    //     }
-    //   })
-    //   .catch(() => {});
+    fetch(`${API}/api/team`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data?.length) {
+          setTeam(d.data.map((m) => {
+            const rawImg = m.image || m.img || m.url || "";
+            const finalImg = rawImg.startsWith("http") || rawImg.startsWith("data:")
+              ? rawImg
+              : rawImg ? `${API}${rawImg.startsWith("/") ? "" : "/"}${rawImg}` : "";
+            return {
+              name: m.name,
+              role: m.role,
+              img: finalImg || TEAM_FALLBACK.find(t => t.name === m.name)?.img || JourneyFallbackImg,
+              linkedin: m.linkedin || undefined,
+            };
+          }));
+        }
+      })
+      .catch(() => {});
 
-    // fetch(`${API}/api/about-journey`)
-    //   .then((r) => r.json())
-    //   .then((d) => {
-    //     if (d.success && d.data?.image) setJourneyImg(`${API}${d.data.image}`);
-    //   })
-    //   .catch(() => {});
+    fetch(`${API}/api/about-journey`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data) {
+          const rawImg = typeof d.data === "string" 
+            ? d.data 
+            : (d.data.image || d.data.img || d.data.url || "");
+          if (rawImg) {
+            const finalJourneyImg = rawImg.startsWith("http") || rawImg.startsWith("data:")
+              ? rawImg
+              : `${API}${rawImg.startsWith("/") ? "" : "/"}${rawImg}`;
+            setJourneyImg(finalJourneyImg);
+          }
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -254,7 +261,6 @@ const AboutUs = () => {
             with memories.
           </p>
      
-          {/* Secondary CTAs */}
           <div style={heroSlide(0.6)} className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mb-5 w-full max-w-[280px] sm:max-w-none mx-auto">
             <a href="https://wa.me/919994666522" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex">
               <button className="cursor-pointer bg-[#1E88E5] hover:bg-[#084298] text-white hover:text-white font-semibold text-[14px] py-2.5 px-6 rounded-sm transition flex items-center justify-center gap-1 w-full sm:w-auto whitespace-nowrap">
@@ -272,11 +278,11 @@ const AboutUs = () => {
               </button>
             </a>
           </div>
-      
         </div>
       </div>
-  {/* 4b. AUTHORISED PARTNER STRIP */}
+
       <AuthorisedPartnerPanel />
+
       {/* 2. OUR JOURNEY SECTION */}
       <div id="our-journey" className="max-w-7xl mx-auto px-4 py-10 lg:py-14">
         <h2
@@ -335,8 +341,8 @@ const AboutUs = () => {
           <div ref={journeyImgRef} style={journeyImgStyle} className="flex-1 w-full relative">
             {journeyImg && (
               <img
-                src="https://res.cloudinary.com/djuqr3qlu/image/upload/v1786098318/Delivery_URL_-_BetterUp_-_importance_of_teamwork_ARTICLE_-3_d2in17.webp"
-                alt="Our Team"
+                src={journeyImg}
+                alt="Our Journey"
                 loading="lazy"
                 className="w-full h-auto rounded-2xl shadow-xl object-cover aspect-[4/3] md:aspect-[16/10]"
               />
@@ -348,23 +354,19 @@ const AboutUs = () => {
       {/* 3. MISSION & VISION SECTION */}
       <div className="bg-white py-16 px-4 overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          {/* Label */}
           <div ref={mvRef} style={mvStyle} className="text-center mb-12">
             <span className="inline-block bg-[#1E88E5]/15 text-black text-[10px] font-bold uppercase tracking-[0.35em] px-4 py-1.5 rounded-full border border-[#1E88E5]/30 mb-4">
               Our Purpose
             </span>
-           <h2 className="text-2xl sm:text-3xl md:text-[36px] font-bold text-black tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-[36px] font-bold text-black tracking-tight">
               What Drives Us Every Day
             </h2>
           </div>
 
-          <div className="grid grid-cols-1  md:grid-cols-2 gap-6 lg:gap-8">
-            {/* Vision Card */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             <RevealItem delay={0.05} from="left">
               <div className="relative bg-[#546e7a] border border-white/10 rounded-2xl p-8 lg:p-10 h-full overflow-hidden group transition-colors duration-300">
-                {/* Accent glow */}
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#1E88E5] via-yellow-300 to-transparent rounded-t-2xl" />
-                {/* Background number */}
                 <span className="absolute -bottom-4 -right-2 text-[120px] font-black text-white/[0.03] leading-none select-none pointer-events-none">01</span>
 
                 <div className="relative z-10">
@@ -380,20 +382,13 @@ const AboutUs = () => {
                   <p className="text-gray-300 text-[15px] leading-[1.85] font-light">
                     To become the most trusted travel companion, ensuring every traveler feels at home wherever their journey takes them by delivering memorable, comfortable and worry-free travel experiences.
                   </p>
-                  <div className="mt-7 pt-6 border-t border-white/10 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#1E88E5]" />
-                    <span className="text-white text-[11px] font-bold uppercase tracking-widest">Trusted · Memorable · Comfortable</span>
-                  </div>
                 </div>
               </div>
             </RevealItem>
 
-            {/* Mission Card */}
             <RevealItem delay={0.15} from="right">
-              <div className="relative bg-[#546e7a] border border-white/10 rounded-2xl p-8 lg:p-10 h-full overflow-hidden  transition-colors duration-300">
-                {/* Accent glow */}
+              <div className="relative bg-[#546e7a] border border-white/10 rounded-2xl p-8 lg:p-10 h-full overflow-hidden transition-colors duration-300">
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#1E88E5] to-[#1E88E5] rounded-t-2xl" />
-                {/* Background number */}
                 <span className="absolute -bottom-4 -right-2 text-[120px] font-black text-white/[0.03] leading-none select-none pointer-events-none">02</span>
 
                 <div className="relative z-10">
@@ -407,12 +402,8 @@ const AboutUs = () => {
                     </div>
                   </div>
                   <p className="text-gray-300 text-[15px] leading-[1.85] font-light">
-                    To make every journey feel like home by providing personalised travel solutions, genuine care, seamless planning and reliable support. We strive to create unforgettable memories through exceptional service, attention to detail and a commitment to exceeding our guests' expectations at every step of their journey.
+                    To make every journey feel like home by providing personalised travel solutions, genuine care, seamless planning and reliable support.
                   </p>
-                  <div className="mt-7 pt-6 border-t border-white/10 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#1E88E5]" />
-                    <span className="text-white text-[11px] font-bold uppercase tracking-widest">Personalised · Caring · Seamless</span>
-                  </div>
                 </div>
               </div>
             </RevealItem>
@@ -495,36 +486,35 @@ const AboutUs = () => {
         </div>
       </div>
 
-      {/* 5. MEET THE TEAM SECTION */}
+      {/* 5. MEET THE TEAM SECTION (INCREASED IMAGE SIZES) */}
       <div id="meet-the-team" className="max-w-7xl mx-auto px-4 pt-8 pb-10 lg:pt-10 lg:pb-20 overflow-x-hidden">
-        <div ref={teamRef} style={teamStyle} className=" max-w-2xl">
+        <div ref={teamRef} style={teamStyle} className="max-w-2xl">
           <h2 className="text-2xl sm:text-3xl md:text-[32px] font-bold text-black mb-4">Meet the team</h2>
           <p className="text-gray-600 text-base">
             Guiding you to your dream... the faces to understand the people behind the guest.
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 md:gap-3">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mt-6">
           {team.map((member, i) => (
             <RevealItem key={i} delay={i * 0.13} from={i % 2 === 0 ? "left" : "right"}>
-              <div className="flex flex-col group cursor-default">
+              <div className="flex flex-col group cursor-default max-w-sm mx-auto w-full">
                 <div
-                  className="relative overflow-hidden bg-white w-full aspect-[3/4] mb-3"
+                  className="relative overflow-hidden bg-white w-full aspect-[4/5] mb-4 shadow-sm group-hover:shadow-md transition-shadow duration-300"
                   style={{ clipPath: ARCH_CLIP }}
                 >
                   <img
                     src={member.img}
                     alt={member.name}
                     loading="lazy"
-                    className="absolute bottom-0 w-full object-contain object-bottom transition-all  "
+                    className="absolute bottom-0 w-full object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
                     style={{ height: "100%" }}
                   />
                 </div>
 
-                {/* Name left, LinkedIn right corner */}
-                <div className="w-full px-2 pr-4">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="text-sm sm:text-base font-bold text-black leading-tight">
+                <div className="w-full px-3">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h3 className="text-base sm:text-lg font-bold text-black leading-tight">
                       {member.name}
                     </h3>
                     {member.linkedin ? (
@@ -542,7 +532,7 @@ const AboutUs = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-[#eab308] font-semibold text-[10px] sm:text-xs tracking-wide uppercase leading-tight">
+                  <p className="text-[#eab308] font-semibold text-xs sm:text-sm tracking-wide uppercase leading-tight">
                     {member.role}
                   </p>
                 </div>
@@ -552,28 +542,8 @@ const AboutUs = () => {
         </div>
       </div>
 
-      {/* 6. FOOTER CTA SECTION */}
-      <div ref={ctaRef} style={ctaStyle} className="bg-[#1E88E5] py-15 px-4 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-9 sm:gap-2 relative z-10">
-          <div className="flex-1 max-w-2xl">
-            <h2 className="text-[32px] md:text-[40px] font-bold text-white mb-4 leading-tight">
-              Wherever You Go, You're<br />
-              Never Far From{" "}
-              <span
-                className="inline-block text-white"
-                style={{ minWidth: `${Math.max(...CYCLE_WORDS.map(w => w.length))}ch` }}
-              >
-                {ctaWord}
-                <span className="inline-block w-[2px] h-[0.85em] bg-white ml-[1px] animate-pulse align-middle" />
-              </span>
-            </h2>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 };
 
 export default AboutUs;
-
