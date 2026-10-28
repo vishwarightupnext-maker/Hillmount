@@ -46,7 +46,7 @@ const customizedHolidaySchema = new mongoose.Schema({
   exclusions:  { type: [String], default: [] },
   tourInfo:    { type: String, default: '' },
   needToKnow:  { type: String, default: '' },
-  packageType: { type: String, enum: ['customized', 'speciality', 'short-stay', 'mice', 'cruise'], default: 'customized' },
+  packageType: { type: String, enum: ['customized', 'speciality', 'tailor-made', 'short-stay', 'mice', 'cruise'], default: 'customized' },
   published:   { type: Boolean, default: false },
 }, { timestamps: true });
 
